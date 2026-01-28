@@ -1,0 +1,10 @@
+{
+    "name" : "joaovictor/app_help_desk",
+    "description" : "Sistema de Help Desk Corporativo",
+    "autoload" : {
+        "psr-4" : {
+            "App\\" : "src/" 
+        }
+    },
+    "require": {}
+}
