@@ -1,0 +1,45 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1 0 auto;
+}
+
+.card-login {
+    padding: 30px 0 0 0;
+    width: 350px;
+    margin: 0 auto;
+}
+
+
+/* ESTILO DO FOOTER */
+.footer {
+    flex-shrink: 0;
+    background-color: #343a40; 
+    padding: 15px 0;
+    margin-top: auto; 
+    border-top: 3px solid #17a2b8; 
+}
+
+.footer span {
+    font-size: 0.9em;
+}
+
+/* AJUSTES DO HEADER */
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+/* Badge do perfil */
+.badge-profile {
+    font-size: 0.8em;
+    position: relative;
+    top: -2px;
+}

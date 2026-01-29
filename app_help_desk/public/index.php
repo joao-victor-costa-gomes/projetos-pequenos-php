@@ -1,68 +1,43 @@
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>App Help Desk</title>
+<?php 
+session_start();
+require_once __DIR__ . '/../vendor/autoload.php';
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+if (!isset($_SESSION['usuario'])){
+    $_SESSION['usuario'] = ['nome'=>'Usuário Teste', 'perfil'=>'user'];
+}
 
-    <style>
-      .card-login {
-        padding: 30px 0 0 0;
-        width: 350px;
-        margin: 0 auto;
-      }
-    </style>
-  </head>
+// pega caminho atual da URL, sem parâmetros e sem nome do domínio
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-  <body>
+require __DIR__ . '/../views/partials/header.php';
 
-    <nav class="navbar navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">
-        <img src="img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-        App Help Desk
-      </a>
-    </nav>
+switch ($url) {
+    case '/': 
+    case '/index.php':
+        require __DIR__ . '/../views/auth/login.php';
+        break;
+        
+    case '/cadastro':
+        require __DIR__ . '/../views/auth/register.php';
+        break;
 
-    <div class="container">    
-      <div class="row">
+    case '/home':
+        require __DIR__ . '/../views/dashboard/home.php';
+        break;
 
-        <div class="card-login">
-          <div class="card">
-            <div class="card-header">
-              Login
-            </div>
-            <div class="card-body">
+    case '/abrir_chamado':
+        require __DIR__ . '/../views/tickets/create.php';
+        break;
 
-              <form action='routes/valida_login.php' method='POST'>
+    case '/consultar_chamado':
+        require __DIR__ . '/../views/tickets/list.php';
+        break;
 
-                <div class="form-group">
-                  <input name='email' type="email" class="form-control" placeholder="E-mail">
-                </div>
+    default:
+        echo "<div class='alert alert-warning text-center'>Página não encontrada (404)</div>";
+        break;
+}
 
-                <div class="form-group">
-                  <input name='senha' type="password" class="form-control" placeholder="Senha">
-                </div>
+require __DIR__ . '/../views/partials/footer.php';
 
-                <!-- ERRO DE LOGIN -->
-                <?php if (isset($_GET['login']) && $_GET['login'] == 'erro') { ?>
-                  <div class="text-danger">
-                    Usuário ou senha inválido(s)
-                  </div>
-                <?php } ?>
-                
-                <!-- ACESSO SEM SESSÃO -->
-                <?php if (isset($_GET['login']) && $_GET['login'] == 'semsessao') { ?>
-                  <div class="text-danger">
-                    Faça login antes de acessar as páginas protegidas
-                  </div>
-                <?php } ?>
-
-                <button class="btn btn-lg btn-info btn-block" type="submit">Entrar</button>
-              </form>
-
-            </div>
-          </div>
-        </div>
-    </div>
-  </body>
-</html>
+?>
