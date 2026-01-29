@@ -1,38 +1,51 @@
 <?php 
 
-namespace App\Models; 
+namespace App\Models;
 
-Use PDO;
+use PDO;
 
-class User { 
+class User {
     private $connection;
-    private $table = 'usuarios'; 
+    private $table = 'usuarios';
 
     public function __construct($db){
-        $this->connection = $db; 
+        $this->connection = $db;
     }
 
-    public function authenticate($email, $password){
-        // 1. busca usuário pelo email
-        $query = "SELECT * FROM " . $this->table . " WHERE email = :email LIMIT 1";
-        // avisa ao banco de dados que ele irá receber um comando (mas sem mostrar os dados)
+    // procura usuário no banco de dados pelo email informado
+    public function findByEmail($email){
+        $query = "SELECT * FROM " . $this->table .
+                " WHERE email = :email LIMIT 1"; 
+        // prepara banco de dados para receber comando com valores pendentes
         $statement = $this->connection->prepare($query);
-        // preenche quais são os dados do comando (SEGURANÇA)
+        // preenche os valores pendentes
         $statement->bindValue(':email', $email);
-        // executa o comando com os dados 
+        // executa comando
         $statement->execute();
-        // pega o resultado da consulta e retorna em um array associativo
-        $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-        // 2. se o usuário existe, verifica senha informada
-        if ($user) {
-            if (password_verify($password, $user['senha'])){
-                return $user; // SUCESSO
-            }
-        }
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
 
-        return false; // FRACASSO
+    // cria um usuário (processo de registro)
+    public function create($username, $email, $password, $profile){
+        $query = "INSERT INTO " . $this->table . 
+                " (nome, email, senha, perfil) 
+                VALUES (:nome, :email, :senha, :perfil)";
+        // prepara banco de dados para receber comando com valores pendentes
+        $statement = $this->connection->prepare($query);
+        // cria um hash para a senha 
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        // preenche os valores pendentes
+        $statement->bindValue(':nome', $username);
+        $statement->bindValue(':email', $email);
+        $statement->bindValue(':senha', $passwordHash);
+        $statement->bindValue(':perfil', $profile);
+        
+        // executa comando e retorna se registro deu certo
+        if ($statement->execute()){
+            return true;
+        } 
+        return false;
     }
 }
-
 ?>

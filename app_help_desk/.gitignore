@@ -1,5 +1,2 @@
-/vendor/
-.env
+vendor/
 .DS_Store
-setup_usuario.php
-router.php
