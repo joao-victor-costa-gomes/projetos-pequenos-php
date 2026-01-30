@@ -1,0 +1,10 @@
+{
+    "name": "joao-victor/app_send_mail",
+    "description": "App Send Mail",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {}
+}
