@@ -1,3 +1,5 @@
+<?php if(!defined('CONTROLADO')) die('Acesso direto negado'); ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

@@ -1,5 +1,10 @@
+<?php if(!defined('CONTROLADO')) die('Acesso direto negado'); ?>
+
 <div class="row justify-content-center">
     <div class="col-md-8">
+
+        <?php require __DIR__ . '/../partials/alerts.php'; ?>
+
         <div class="card shadow-sm">
             <div class="card-header bg-dark text-white">
                 <h5 class="mb-0">Abertura de Chamado</h5>

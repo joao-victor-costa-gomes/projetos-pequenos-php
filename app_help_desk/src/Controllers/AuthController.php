@@ -15,13 +15,15 @@ class AuthController {
         if ($email && $password){
             // faz conexão com banco de dados 
             $db = new Database(); 
-            $db->getConnection();
             // busca usuário no banco de dados 
             $userModel = new User($db->getConnection());
             $user = $userModel->findByEmail($email);
             // verifica se o usuário existe
             // verifica se o hash da senha digitada bate com a do banco de dados 
             if ($user && password_verify($password, $user['senha'])){
+                // Deleta o arquivo de sessão antigo do servidor
+                session_regenerate_id(true); 
+                
                 // SUCESSO: salva na sessão os dados do usuário
                 session_start();
                 $_SESSION['usuario'] = [
@@ -56,7 +58,6 @@ class AuthController {
         if ($username && $email && $password) {
             // faz conexão com banco de dados 
             $db = new Database(); 
-            $db->getConnection();
             $userModel = new User($db->getConnection());
             // tenta criar usuário
             // SUCESSO: vai para a tela de login com mensagem de sucesso

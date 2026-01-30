@@ -1,3 +1,5 @@
+<?php if(!defined('CONTROLADO')) die('Acesso direto negado'); ?>
+
 <div class="row justify-content-center">
     
     <div class="col-md-5 mb-4">

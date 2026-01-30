@@ -1,8 +1,12 @@
 <?php 
+// VARIÁVEL DE SEGURANÇA
+define('CONTROLADO', true);
+
 session_start();
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\AuthController;
+use App\Controllers\TicketController;
 
 // pega caminho atual da URL, sem parâmetros e sem nome do domínio
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -20,6 +24,22 @@ if ($url == '/logout') {
 
 if ($url == '/auth/cadastrar' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     (new AuthController())->register();
+    exit;
+}
+
+if ($url == '/ticket/store' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    (new TicketController())->store();
+    exit;
+}
+
+if ($url == '/ticket/resolve' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    (new TicketController())->resolve();
+    exit;
+}
+
+// User Exclui
+if ($url == '/ticket/delete' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    (new TicketController())->delete();
     exit;
 }
 
@@ -51,12 +71,14 @@ switch ($url) {
         break;
 
     case '/abrir_chamado':
-        if (!isset($_SESSION['usuario'])) { header('Location: /'); exit; }
+        if (!isset($_SESSION['usuario'])) { header('Location: /?erro=acesso_negado'); exit; }
         require __DIR__ . '/../views/tickets/create.php';
         break;
 
     case '/consultar_chamado':
-        if (!isset($_SESSION['usuario'])) { header('Location: /'); exit; }
+        if (!isset($_SESSION['usuario'])) { header('Location: /?erro=acesso_negado'); exit; }
+        $controller = new TicketController();
+        $chamados = $controller->list();
         require __DIR__ . '/../views/tickets/list.php';
         break;
 

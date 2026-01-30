@@ -1,4 +1,6 @@
-</div> <footer class="footer mt-auto py-3">
+<?php if(!defined('CONTROLADO')) die('Acesso direto negado'); ?>
+
+</div> <footer class="footer mt-5 py-3">
   <div class="container text-center">
     <span class="text-white">
         &copy; <?php echo date('Y'); ?> <strong>App Help Desk</strong>

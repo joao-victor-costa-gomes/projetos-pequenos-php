@@ -1,5 +1,12 @@
+<?php if(!defined('CONTROLADO')) die('Acesso direto negado'); ?>
+
 <div class="row">
-    <div class="card-login"> <div class="card">
+    <div class="card-login"> 
+
+        <?php require __DIR__ . '/../partials/alerts.php'; ?>
+
+        <div class="card">
+            
             <div class="card-header text-center">
                 Criar Nova Conta
             </div>
@@ -32,7 +39,5 @@
                 </form>
             </div>
         </div>
-
-        <div class='mb-5' ></div>
     </div>
 </div>
