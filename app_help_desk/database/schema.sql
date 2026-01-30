@@ -25,12 +25,3 @@ CREATE TABLE IF NOT EXISTS chamados (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
-
--- dados de teste
--- Admin Padrão (Senha: 123456)
-INSERT INTO usuarios (nome, email, senha, perfil) VALUES 
-('Administrador Supremo', 'admin@helpdesk.com', '$2y$10$e8D.A7.e8D.A7.e8D.A7.e8D.A7.e8D.A7.e8D.A7.e8D.A7.e8D', 'admin');
-
--- Usuário Comum Padrão (Senha: 123456)
-INSERT INTO usuarios (nome, email, senha, perfil) VALUES 
-('José Usuário', 'user@helpdesk.com', '$2y$10$e8D.A7.e8D.A7.e8D.A7.e8D.A7.e8D.A7.e8D.A7.e8D.A7.e8D', 'user');
