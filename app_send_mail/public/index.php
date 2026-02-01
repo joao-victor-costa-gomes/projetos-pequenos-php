@@ -1,12 +1,19 @@
 <?php 
 
 require_once __DIR__ . '/../vendor/autoload.php';
+use App\Controllers\EmailController;
 
 // pega caminho atual da URL (sem domínio e sem parâmetros)
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+// ROTAS DE AÇÃO
+if ($url == '/new_email/send' && $_SERVER['REQUEST_METHOD'] == 'POST'){
+	(new EmailController())->send();
+	// exit;
+}
 
-// carrega conteúdo das páginas (com header e footer)
+// ROTAS PÚBLICAS
+// carrega conteúdo das páginas públicas (com header e footer)
 
 require __DIR__ . '/../views/partials/header.php';
 
