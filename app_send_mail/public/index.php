@@ -1,6 +1,10 @@
 <?php 
-
 require_once __DIR__ . '/../vendor/autoload.php';
+
+// carregar variáveis de ambiente antes de tudo
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
 use App\Controllers\EmailController;
 
 // pega caminho atual da URL (sem domínio e sem parâmetros)
@@ -9,7 +13,7 @@ $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 // ROTAS DE AÇÃO
 if ($url == '/new_email/send' && $_SERVER['REQUEST_METHOD'] == 'POST'){
 	(new EmailController())->send();
-	// exit;
+	exit;
 }
 
 // ROTAS PÚBLICAS
@@ -27,12 +31,15 @@ switch ($url) {
 		break;
 
 	case '/history':
-		require __DIR__ . '/../views/history.php';
+		(new EmailController())->history();
 		break;
 
 	default:
-		echo "<h1>PÁGINA NÃO ENCONTRADA (ERRO 404)</h1>";
-		break;
+		echo "<div class='container py-5 text-center'>";
+        echo "<h1 class='display-1 text-muted'>404</h1>";
+        echo "<p class='lead'>Ops! Página não encontrada.</p>";
+        echo "</div>";
+        break;
 }
 
 require __DIR__ . '/../views/partials/footer.php';

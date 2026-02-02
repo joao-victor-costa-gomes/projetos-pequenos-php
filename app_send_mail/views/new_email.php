@@ -1,6 +1,22 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-8">
+
+            <?php if (isset($_GET['erro']) && $_GET['erro'] == 'dados_invalidos'): ?>
+                <div class="alert alert-warning alert-dismissible fade show shadow-sm mb-4" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <strong>Atenção!</strong> Por favor, preencha todos os campos antes de enviar.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['msg']) && $_GET['msg'] == 'erro_envio'): ?>
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
+                    <i class="bi bi-x-circle-fill me-2"></i>
+                    <strong>Ops!</strong> Não foi possível enviar o e-mail. Tente novamente mais tarde.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
             
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2><i class="bi bi-pencil-square me-2"></i>Nova Mensagem</h2>
@@ -10,7 +26,7 @@
             <div class="card shadow border-0">
                 <div class="card-body p-4">
                     
-                    <form action="/email/send" method="POST">
+                    <form action="/new_email/send" method="POST">
                         
                         <div class="mb-3">
                             <label for="para" class="form-label fw-bold">Para:</label>

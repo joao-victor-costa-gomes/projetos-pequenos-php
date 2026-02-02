@@ -12,8 +12,31 @@ class EmailLog {
         $this->connection = $db;
     }
 
-    public function send($para, $assunto, $mensagem){
-        echo "Para: $para<br>Assunto: $assunto<br>Mensagem: $mensagem";
+    // função para registrar envio (ou tentativa de envio) de emails
+    public function create($para, $assunto, $mensagem, $status, $logErro = null){
+        $query = "INSERT INTO " . $this->table . " 
+                (destinatario, assunto, mensagem, status, log_erro) 
+                VALUES (:para, :assunto, :mensagem, :status, :log_erro)";
+        // prepara banco de dados para receber comando com valores pendentes
+        $statement = $this->connection->prepare($query);
+        // preenche os valores pendentes
+        $statement->bindValue(':para', $para);
+        $statement->bindValue(':assunto', $assunto);
+        $statement->bindValue(':mensagem', $mensagem);
+        $statement->bindValue(':status', $status);
+        $statement->bindValue(':log_erro', $logErro);
+
+        return $statement->execute();
+    }
+
+    // função para pegar todos os emails
+    public function findAll(){
+        $query = "SELECT * FROM " . $this->table . " ORDER BY created_at DESC";
+        $statement = $this->connection->prepare($query);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+
     }
 }
 

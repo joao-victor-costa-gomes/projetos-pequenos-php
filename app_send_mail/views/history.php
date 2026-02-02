@@ -1,5 +1,13 @@
 <div class="container">
     
+    <?php if (isset($_GET['msg']) && $_GET['msg'] == 'sucesso'): ?>
+        <div class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>Sucesso!</strong> E-mail enviado e registrado no histórico.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2><i class="bi bi-clock-history me-2"></i>Histórico de Envios</h2>
         <div>
@@ -22,63 +30,52 @@
                             <th scope="col" class="text-end pe-4">Ações</th>
                         </tr>
                     </thead>
-                    <tbody>
+
+        <tbody>
+            <?php if (empty($emails)): ?>
+                <tr>
+                    <td colspan="6" class="text-center py-4 text-muted">
+                        <i class="bi bi-inbox me-2"></i>Nenhum e-mail enviado ainda.
+                    </td>
+                </tr>
+            <?php else: ?>
+                
+                <?php foreach ($emails as $email): ?>
+                    <tr>
+                        <td class="ps-4 fw-bold text-muted">#<?php echo $email['id']; ?></td>
+                        <td><?php echo htmlspecialchars($email['destinatario']); ?></td>
+                        <td><?php echo htmlspecialchars($email['assunto']); ?></td>
                         
-                        <tr>
-                            <td class="ps-4 fw-bold text-muted">105</td>
-                            <td>cliente@empresa.com</td>
-                            <td>Orçamento Projeto Web</td>
-                            <td>30/01/2026 às 14:30</td>
-                            <td class="text-center">
+                        <td>
+                            <?php echo date('d/m/Y \à\s H:i', strtotime($email['created_at'])); ?>
+                        </td>
+
+                        <td class="text-center">
+                            <?php if ($email['status'] == 'sucesso'): ?>
                                 <span class="badge bg-success rounded-pill">
                                     <i class="bi bi-check-circle me-1"></i>Enviado
                                 </span>
-                            </td>
-                            <td class="text-end pe-4">
-                                <button class="btn btn-sm btn-outline-info" title="Ver Detalhes">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="ps-4 fw-bold text-muted">104</td>
-                            <td>email.errado@teste</td>
-                            <td>Teste de sistema</td>
-                            <td>30/01/2026 às 14:25</td>
-                            <td class="text-center">
-                                <span class="badge bg-danger rounded-pill">
+                            <?php else: ?>
+                                <span class="badge bg-danger rounded-pill" title="<?php echo htmlspecialchars($email['log_erro']); ?>">
                                     <i class="bi bi-x-circle me-1"></i>Erro
                                 </span>
-                            </td>
-                            <td class="text-end pe-4">
-                                <button class="btn btn-sm btn-outline-danger" title="Ver Erro">
-                                    <i class="bi bi-exclamation-triangle"></i>
-                                </button>
-                            </td>
-                        </tr>
+                            <?php endif; ?>
+                        </td>
 
-                        <tr>
-                            <td class="ps-4 fw-bold text-muted">103</td>
-                            <td>fornecedor@loja.com</td>
-                            <td>Pedido de Compra #44</td>
-                            <td>29/01/2026 às 09:15</td>
-                            <td class="text-center">
-                                <span class="badge bg-success rounded-pill">
-                                    <i class="bi bi-check-circle me-1"></i>Enviado
-                                </span>
-                            </td>
-                            <td class="text-end pe-4">
-                                <button class="btn btn-sm btn-outline-info" title="Ver Detalhes">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                            </td>
-                        </tr>
+                        <td class="text-end pe-4">
+                            <button type="button" class="btn btn-sm btn-outline-info" 
+                                    data-bs-toggle="tooltip" title="Mensagem: <?php echo substr(strip_tags($email['mensagem']), 0, 50); ?>...">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
 
-                    </tbody>
+            <?php endif; ?>
+        </tbody>
+
                 </table>
             </div>
         </div>
-        
     </div>
 </div>
