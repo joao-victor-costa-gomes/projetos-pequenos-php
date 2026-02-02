@@ -50,3 +50,39 @@ Um sistema para enviar e-mails e visualizar histórico de envios. Desenvolvido e
 ```
 
 ---
+
+## 🛠️ Instalação e Execução
+
+### Pré-requisitos
+
+- **PHP** 8.0 ou superior.
+
+- **MySQL** (via XAMPP, WAMP, Docker ou instalado nativamente).
+
+- **Composer** instalado.
+
+### Configuração e Instalação
+
+**1. Clone o repositório e entre na pasta desse projeto**
+
+**2. Instale as bibliotecas do PHP (PHPMailer e Dotenv)**
+```bash
+composer install
+```
+
+**3. Configure o Banco de Dados**
+- Abra seu gerenciador de banco de dados
+- Crie um novo banco de dados.
+- Importe o arquivo `database.sql` (que está na raiz do projeto) para criar a tabela. `emails_enviados`.
+
+**4. Configure as variáveis de ambiente**
+- Na raiz do projeto, duplique o arquivo `.env.example` e renomeie a cópia para `.env`.
+- Abra o `.env` e configure suas credenciais.
+
+**5. Rode o projeto**
+Para iniciar o projeto, use o servidor embutido do PHP apontando para a pasta `public/`:
+```bash
+cd public
+php -S localhost:8080
+```
+---
